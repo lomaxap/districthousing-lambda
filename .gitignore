@@ -1,4 +1,4 @@
 build/*
 packaging/vendor/*
 packaging/*.tar.gz
-
+bin/*

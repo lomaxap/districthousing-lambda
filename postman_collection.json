@@ -1,0 +1,35 @@
+{
+	"id": "1d957395-adf8-9a49-e169-5bfc20011cb4",
+	"name": "districthousing",
+	"description": "",
+	"order": [
+		"75cdfc86-9b14-5cb4-1bd9-a38f9b1d8a27"
+	],
+	"folders": [],
+	"timestamp": 1501591922677,
+	"owner": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "75cdfc86-9b14-5cb4-1bd9-a38f9b1d8a27",
+			"headers": "Content-Type: application/json\n",
+			"url": "https://pozon059e5.execute-api.us-west-2.amazonaws.com/districthousing/applicant",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "1d957395-adf8-9a49-e169-5bfc20011cb4",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Test Generating Application",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1501591922676,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n  \"residences\": [\n    {\n      \"id\": 0,\n      \"start_date\": \"1999-02-01\",\n      \"reason\": \"Voluntary\",\n      \"landlord\": {\n        \"work_phone\": \"555-555-5555\",\n        \"student_status\": \"\",\n        \"state_of_birth\": \"\",\n        \"ssn\": \"\",\n        \"race\": \"\",\n        \"occupation\": \"\",\n        \"middle_name\": \"\",\n        \"marital_status\": \"\",\n        \"mailing_address_id\": \"\",\n        \"last_name\": \"Tibbs\",\n        \"home_phone\": \"\",\n        \"gender\": \"\",\n        \"first_name\": \"Randy\",\n        \"ethnicity\": \"\",\n        \"email\": \"\",\n        \"driver_license_state\": \"\",\n        \"driver_license_number\": \"\",\n        \"driver_license_exp_date\": \"\",\n        \"dob\": \"\",\n        \"country_of_birth\": \"\",\n        \"city_of_birth\": \"\",\n        \"citizenship\": \"\",\n        \"cell_phone\": \"\"\n      },\n      \"end_date\": \"2017-05-01\",\n      \"current\": false,\n      \"address_id\": 0\n    },\n    {\n      \"id\": 1,\n      \"start_date\": \"2017-05-01\",\n      \"reason\": \"\",\n      \"landlord\": {\n        \"work_phone\": \"\",\n        \"student_status\": \"\",\n        \"state_of_birth\": \"\",\n        \"ssn\": \"\",\n        \"race\": \"\",\n        \"occupation\": \"\",\n        \"middle_name\": \"\",\n        \"marital_status\": \"\",\n        \"mailing_address_id\": \"\",\n        \"last_name\": \"Dent\",\n        \"home_phone\": \"\",\n        \"gender\": \"\",\n        \"first_name\": \"Harvey\",\n        \"ethnicity\": \"\",\n        \"email\": \"\",\n        \"driver_license_state\": \"\",\n        \"driver_license_number\": \"\",\n        \"driver_license_exp_date\": \"\",\n        \"dob\": \"\",\n        \"country_of_birth\": \"\",\n        \"city_of_birth\": \"\",\n        \"citizenship\": \"\",\n        \"cell_phone\": \"\"\n      },\n      \"end_date\": \"\",\n      \"current\": true,\n      \"address_id\": 1\n    }\n  ],\n  \"previous_ssns\": [],\n  \"person\": {\n    \"work_phone\": \"555-555-5555\",\n    \"student_status\": \"Not a Student\",\n    \"state_of_birth\": \"GA\",\n    \"ssn\": \"555-55-555\",\n    \"race\": \"Black/African American\",\n    \"occupation\": \"Developer\",\n    \"middle_name\": \"Lomax\",\n    \"marital_status\": \"Single\",\n    \"mailing_address_id\": \"1\",\n    \"last_name\": \"Test\",\n    \"home_phone\": \"555-555-5555\",\n    \"gender\": \"Male\",\n    \"first_name\": \"Andrew\",\n    \"ethnicity\": \"\",\n    \"email\": \"fake@fake.com\",\n    \"driver_license_state\": \"VA\",\n    \"driver_license_number\": \"1234567890\",\n    \"driver_license_exp_date\": \"\",\n    \"dob\": \"2017-05-01\",\n    \"country_of_birth\": \"\",\n    \"city_of_birth\": \"Atlanta\",\n    \"citizenship\": \"US Citizen\",\n    \"cell_phone\": \"555-555-5555\",\n    \"drive_licenese_exp_date\": \"2017-05-01\"\n  },\n  \"incomes\": [\n    {\n      \"id\": 0,\n      \"interval\": \"Monthly\",\n      \"income_type\": \"Employment\",\n      \"amount\": \"1000\"\n    },\n    {\n      \"id\": 1,\n      \"interval\": \"Monthly\",\n      \"income_type\": \"Social Security\",\n      \"amount\": \"200\"\n    }\n  ],\n  \"housing_forms\": [\n    1,\n    2,\n    55\n  ],\n  \"household_members\": [\n    {\n      \"id\": 0,\n      \"relationship\": \"Friend\",\n      \"member\": {\n        \"work_phone\": \"555-555-5555\",\n        \"student_status\": \"\",\n        \"state_of_birth\": \"\",\n        \"ssn\": \"\",\n        \"race\": \"\",\n        \"occupation\": \"\",\n        \"middle_name\": \"\",\n        \"marital_status\": \"\",\n        \"mailing_address_id\": \"\",\n        \"last_name\": \"Franzen\",\n        \"home_phone\": \"555-555-555\",\n        \"gender\": \"\",\n        \"first_name\": \"Johnathan\",\n        \"ethnicity\": \"\",\n        \"email\": \"\",\n        \"driver_license_state\": \"\",\n        \"driver_license_number\": \"\",\n        \"driver_license_exp_date\": \"\",\n        \"dob\": \"05/16/2017\",\n        \"country_of_birth\": \"\",\n        \"city_of_birth\": \"\",\n        \"citizenship\": \"\",\n        \"cell_phone\": \"555-555-5555\"\n      }\n    }\n  ],\n  \"employments\": [\n    {\n      \"id\": 0,\n      \"supervisor_name\": \"Jeddy\",\n      \"start_date\": \"2012-05-01\",\n      \"position\": \"Developer\",\n      \"phone\": \"555-555-5555\",\n      \"part_time\": false,\n      \"end_date\": \"2015-05-01\",\n      \"employer_name\": \"Bread for the City\",\n      \"current\": false,\n      \"address\": {\n        \"street\": \"700 7th St. NW\",\n        \"state\": \"DC\",\n        \"id\": \"\",\n        \"city\": \"Washington\",\n        \"apt\": \"\"\n      }\n    }\n  ],\n  \"criminal_histories\": [\n    {\n      \"id\": 0,\n      \"year\": \"2015\",\n      \"description\": \"Singing in the rain\",\n      \"crime_type\": \"Misdemeanor\"\n    }\n  ],\n  \"aliases\": [],\n  \"addresses\": [\n    {\n      \"id\": 0,\n      \"street\": \"555 7th St. NW\",\n      \"state\": \"DC\",\n      \"city\": \"Washington\",\n      \"apt\": \"1\",\n      \"residence\": true\n    },\n    {\n      \"id\": 1,\n      \"street\": \"998 11th St. NE\",\n      \"state\": \"DC\",\n      \"city\": \"Washington\",\n      \"apt\": \"\",\n      \"residence\": true\n    }\n  ]\n}"
+		}
+	]
+}

@@ -3,21 +3,23 @@
 set -e
 
 # Your Ruby app's name
-APP_NAME="hello-world"
+APP_NAME="district-housing-lambda"
 # Your app's version, increment before deploys!
 APP_VERSION="1.0.0"
 TRAVELING_RUBY_VERSION="20150210-2.1.5"
 
 # Set this up in your ~/.aws/credentials
-# Use a profile that has the ability to put 
+# Use a profile that has the ability to put
 # objects on S3 and update Lambda functions
-AWS_PROFILE="user-with-s3-and-lambda-privileges"
+AWS_PROFILE="default"
 # S3 Bucket where Lambda will find the Deployment Package
-AWS_BUCKET="your.bucket.net"
+# change this to your s3 bucket's name
+AWS_BUCKET="bread-district-housing"
 # The S3 Key of the Deployment Package zip file
 AWS_KEY="lambda-functions/$APP_NAME-$APP_VERSION.zip"
-# The Lambda Function name, created already
-AWS_LAMBDA_FUNCTION="yourLambdaFunctionName"
+# The Lambda Function name, created already.
+# Change this to your lambda function's name
+AWS_LAMBDA_FUNCTION="generateHapPDF"
 
 ########################
 ### Helper Functions ###
@@ -99,6 +101,7 @@ mkdir -p $lib_dir
 
 # Copy in the app
 cp -R app $lib_dir
+cp -R bin $package_dir
 
 # Uncompress the appropriate Ruby into it
 download_runtime $target_os
