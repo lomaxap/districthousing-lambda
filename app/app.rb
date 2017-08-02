@@ -4,11 +4,9 @@ require_relative 'output_pdf.rb'
 require 'open-uri'
 require 'base64'
 
-applicantData = JSON.parse(ARGV[0])
-form = {
-  'path'=> 'https://s3-us-west-2.amazonaws.com/bread-district-housing/forms/3treeflats.pdf',
-  'name'=> '3treeflats'
-}
+data = JSON.parse(ARGV[0])
+form = data['form'];
+applicant = data['applicant']
 
 form['filled_path'] = "/tmp/#{form['name']}.pdf"
 
@@ -18,6 +16,6 @@ File.open(form['tmp_path'], "wb") do |file|
   file.write open(form['path']).read
 end
 
-filled = OutputPDF.new(form, applicantData).to_file
+filled = OutputPDF.new(form, applicant).to_file
 
 puts Base64.encode64(filled)

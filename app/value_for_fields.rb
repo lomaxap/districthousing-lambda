@@ -48,7 +48,7 @@ class ValueForField
     when /^Crime(.+)$/
       criminal_history_val applicant['criminal_histories'][0], $1
     else
-      person_val(applicant['person'], field_name) || ""
+      person_val(applicant['person'], field_name, applicant['addresses']) || ""
     end
   end
 
@@ -145,47 +145,16 @@ class ValueForField
     when /^Amount$/
       income['amount'].to_i
     when "AmountWeekly"
-      if interval=="biweekly"
-        income['amount'].to_i/2.0
-      elsif interval=="monthly"
-        income['amount'].to_i/4.0
-      elsif interval=="yearly"
-        income['amount'].to_i/52.0
-      else
-        income['amount'].to_i
-      end
+      # always monthly form bread DB
+      income['amount'].to_i/4.0
     when "AmountBiweekly"
-      if interval=="weekly"
-        income['amount'].to_i*2.0
-      elsif interval=="monthly"
-        income['amount'].to_i/2.0
-      elsif interval=="yearly"
-        income['amount'].to_i/26.0
-      else
-        income['amount'].to_i
-      end
+      income['amount'].to_i/2.0
     when "AmountMonthly"
-      if interval=="weekly"
-        income['amount'].to_i*4.0
-      elsif interval=="biweekly"
-        income['amount'].to_i*2.0
-      elsif interval=="yearly"
-        income['amount'].to_i/12.0
-      else
-        income['amount'].to_i
-      end
+      income['amount'].to_i
     when "AmountYearly"
-      if interval=="weekly"
-        income['amount'].to_i*52.0
-      elsif interval=="biweekly"
-        income['amount'].to_i*26.0
-      elsif interval=="monthly"
-        income['amount'].to_i*12.0
-      else
-        income['amount'].to_i
-      end
+      income['amount'].to_i*12.0
     when "Interval"
-      income['interval']
+      "monthly"
     when /^Earner(\D+)$/
       ""
       #person.value_for_field $1
@@ -214,30 +183,37 @@ class ValueForField
     end
   end
 
-  def person_val person, field_name
+  def person_val person, field_name, *addresses
     return "" if person.nil?
     case field_name
     when /^Mail(.*)/
-      person['mailing_address_id'] && address_val(person['addresses'][person['mailing_address_id']], $1, person['residences'])
+      return "" if addresses.nil? || person['mailing_address_id'].nil?
+      index = person['mailing_address_id'].to_i
+      address_val(addresses[index], $1, person['residences'])
     when /^Address(.*)/
-      person['mailing_address_id'] && address_val(person['addresses'][person['mailing_address_id']], $1, person['residences'])
+      return "" if addresses.nil? || person['mailing_address_id'].nil?
+      index = person['mailing_address_id'].to_i
+      address_val(addresses[index], $1, person['residences'])
     when "FirstName"
       person['first_name']
     when "FirstInitial"
       return "" if person['first_name'].nil?
-      person['first_name'].to_s[0].upcase
+      i = person['first_name'].to_s[0]
+      i && i.upcase
     when "LastName"
       person['last_name']
     when "LastInitial"
       return "" if person['last_name'].nil?
-      person['last_name'].to_s[0].upcase
+      i = person['last_name'].to_s[0]
+      i && i.upcase
     when "MiddleName"
       person['middle_name']
     when "MiddleInitial"
       return "" if person['middle_name'].nil?
-      person['middle_name'].to_s[0].upcase
+      i = person['middle_name'].to_s[0]
+      i && i.upcase
     when /^(Full)?Name\d*$/
-      person['full_name']
+      "#{person['first_name']} #{person['middle_name']} #{person['last_name']}".strip.squeeze(" ")
     when "DOB"
       return "" if person['dob'].nil?
       Date.parse(person['dob']).strftime("%m/%d/%Y")
@@ -263,11 +239,14 @@ class ValueForField
     when "HomePhone"
       person['home_phone']
     when /^(Preferred)?Phone$/
-      person['preferred_phone']
+      ""
+      #person['preferred_phone']
     when "Email"
       person['email']
     when "GenderInitial"
-      person['gender'].to_s.first
+      return "" if person['gender'].nil?
+      i = person['gender'].to_s[0]
+      i && i.upcase
     when "Gender"
       person['gender']
     when "Race"
@@ -353,6 +332,31 @@ class ValueForField
     else
       ""
       #UnknownField.new
+    end
+  end
+
+  def boolean_field boolean_field_component
+    truth = yield
+    if truth
+      case boolean_field_component
+      when /^(Tick)?Yes(No)?$|^T$/
+        "Yes"
+      when /^Y$|^YN$/
+        "Y"
+      else
+        ""
+      end
+    else
+      case boolean_field_component
+      when /^TickNo$/
+        "Yes"
+      when /^(Yes)?No$/
+        "No"
+      when /^N$|^YN$/
+        "N"
+      else
+        ""
+      end
     end
   end
 end
