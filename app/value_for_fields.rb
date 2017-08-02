@@ -183,7 +183,7 @@ class ValueForField
     end
   end
 
-  def person_val person, field_name, *addresses
+  def person_val person, field_name, addresses=[]
     return "" if person.nil?
     case field_name
     when /^Mail(.*)/
