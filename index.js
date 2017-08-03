@@ -16,9 +16,9 @@ exports.handler = function(event, context, callback) {
 
   pdfGen.on('close', function (code) {
     if(code === 0) {
-      callback(null, { status: 'OK', pdf: pdf, code: code, error: "", building: event.form.name });
+      callback(null, { status: 'OK', pdf: pdf, code: code, errorMessage: "", building: event.form.name });
     } else {
-      callback(null, { status: 'FAILURE', pdf: "", code: code, error: err, building: event.form.name });
+      callback(null, { status: 'FAILURE', pdf: "", code: code, errorMessage: err, building: event.form.name });
     }
   });
 }

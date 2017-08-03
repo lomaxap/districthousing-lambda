@@ -111,6 +111,7 @@ class ValueForField
        end
     when /^(\D*)$/
       unless ['Street','City','State', 'Zip', 'Apt', ""].include?($1)
+        return "" if residences.nil?
        residence_val residences.detect {|r| r['address_id'] == address['id']}, $1
       end
     end
