@@ -14,7 +14,7 @@ class ValueForField
       ""
       index = $1.to_i - 1
       return "" if applicant['residences'][index].nil?
-      person_val applicant['residences'][index]['landlord'], $2
+      landlord_val applicant['residences'][index]['landlord'], $2
     when /^Residence(\d+)(.*)$/
       index = $1.to_i - 1
       address_val applicant['addresses'][index], $2, applicant['residences']
@@ -60,7 +60,7 @@ class ValueForField
     when "Relationship"
       member['relationship']
     else
-      person_val member['member'], field_name
+      person_val member, field_name
     end
   end
 
@@ -171,7 +171,6 @@ class ValueForField
       history['year']
     when "Type"
       history['crime_type']
-      #Constants::CrimeType.new(history['crime_type']).name_pdf
     when "Description"
       history['description']
     when "State"
@@ -240,8 +239,7 @@ class ValueForField
     when "HomePhone"
       person['home_phone']
     when /^(Preferred)?Phone$/
-      ""
-      #person['preferred_phone']
+      person['cell_phone'] || person['home_phone'] || person['work_phone'] || ""
     when "Email"
       person['email']
     when "GenderInitial"
@@ -334,6 +332,16 @@ class ValueForField
       ""
       #UnknownField.new
     end
+  end
+
+  def landlord_val landlord, field_name
+    if ['Name', 'FirstName', 'LastName', 'WorkPhone'].include?(field_name)
+      return person_val landlord, field_name
+    elsif ['City', 'State', 'Zip', 'Street'].include?(field_name)
+      return address_val landlord, field_name
+    end
+
+    return ""
   end
 
   def boolean_field boolean_field_component
