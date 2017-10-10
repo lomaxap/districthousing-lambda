@@ -14,8 +14,6 @@ class OutputPDF
     File.binread(@form['filled_path'])
   end
 
-  private
-
   def form_field_hash
     Hash[form_fields.compact]
   end
@@ -29,6 +27,11 @@ class OutputPDF
 
   def fields
     @pdftk.get_fields(@form['tmp_path']).map(&:name)
+  end
+
+  def filled_values
+    @pdftk.fill_form @form['tmp_path'], @form['filled_path'], form_field_hash
+    @pdftk.get_fields(@form['filled_path'])
   end
 
 end

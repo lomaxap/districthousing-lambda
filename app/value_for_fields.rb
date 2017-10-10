@@ -338,7 +338,7 @@ class ValueForField
     if ['Name', 'FirstName', 'LastName', 'WorkPhone'].include?(field_name)
       return person_val landlord, field_name
     elsif ['City', 'State', 'Zip', 'Street'].include?(field_name)
-      return address_val landlord, field_name
+      return address_val landlord, field_name, []
     end
 
     return ""
