@@ -8,12 +8,20 @@ data = JSON.parse(ARGV[0])
 form = data['form'];
 applicant = data['applicant']
 
-form['filled_path'] = "/tmp/#{form['name']}.pdf"
+path = ''
+if form['path'].include? 'google'
+  doc_id = /\/file\/d\/(.+)\//.match(form['path'])[1]
+  raise 'must set `GOOGLE_API_KEY` as environment variable' unless ENV['GOOGLE_API_KEY']
+  path = "https://www.googleapis.com/drive/v3/files/#{doc_id}?key=#{ENV['GOOGLE_API_KEY']}&alt=media"
+else
+  path = form['path']
+end
 
-# pdftk can't read from uri, storing in tmp file
+form['filled_path'] = "/tmp/#{form['name']}.pdf"
+## pdftk can't read from uri, storing in tmp file
 form['tmp_path'] = "/tmp/#{form['name']}_tmp.pdf"
 File.open(form['tmp_path'], "wb") do |file|
-  file.write open(form['path']).read
+  file.write open(path).read
 end
 
 filled = OutputPDF.new(form, applicant).to_file
