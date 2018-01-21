@@ -1,5 +1,11 @@
 require 'date'
 
+class NilClass
+  def empty?
+    true
+  end
+end
+
 class ValueForField
   def value_of applicant, field_name
     case field_name
@@ -197,37 +203,37 @@ class ValueForField
     when "FirstName"
       person['first_name']
     when "FirstInitial"
-      return "" if person['first_name'].nil?
+      return "" if person['first_name'].empty?
       i = person['first_name'].to_s[0]
       i && i.upcase
     when "LastName"
       person['last_name']
     when "LastInitial"
-      return "" if person['last_name'].nil?
+      return "" if person['last_name'].empty?
       i = person['last_name'].to_s[0]
       i && i.upcase
     when "MiddleName"
       person['middle_name']
     when "MiddleInitial"
-      return "" if person['middle_name'].nil?
+      return "" if person['middle_name'].empty?
       i = person['middle_name'].to_s[0]
       i && i.upcase
     when /^(Full)?Name\d*$/
       "#{person['first_name']} #{person['middle_name']} #{person['last_name']}".strip.squeeze(" ")
     when "DOB"
-      return "" if person['dob'].nil?
+      return "" if person['dob'].empty?
       Date.parse(person['dob']).strftime("%m/%d/%Y")
     when "DOBDD"
-      return "" if person['dob'].nil?
+      return "" if person['dob'].empty?
       Date.parse(person['dob']).strftime("%d")
     when "DOBMM"
-      return "" if person['dob'].nil?
+      return "" if person['dob'].empty?
       Date.parse(person['dob']).strftime("%m")
     when "DOBYYYY"
-      return "" if person['dob'].nil?
+      return "" if person['dob'].empty?
       Date.parse(person['dob']).strftime("%Y")
     when "Age"
-      return "" if person['dob'].nil?
+      return "" if person['dob'].empty?
       now = Time.now.utc.to_date
       now.year - Date.parse(person['dob']).year - ((now.month > Date.parse(person['dob']).month || (now.month == Date.parse(person['dob']).month && now.day >= Date.parse(person['dob']).day)) ? 0 : 1)
     when "SSN"
@@ -243,7 +249,7 @@ class ValueForField
     when "Email"
       person['email']
     when "GenderInitial"
-      return "" if person['gender'].nil?
+      return "" if person['gender'].empty?
       i = person['gender'].to_s[0]
       i && i.upcase
     when "Gender"
@@ -297,16 +303,16 @@ class ValueForField
     when "DriverLicenseState"
       person['driver_license_state']
     when "DriverLicenseExpire"
-      return "" if person['driver_license_exp_date'].nil?
+      return "" if person['driver_license_exp_date'].empty?
       person['driver_license_exp_date'].strftime("%m/%d/%Y")
     when "DriverLicenseExpireDD"
-      return "" if person['driver_license_exp_date'].nil?
+      return "" if person['driver_license_exp_date'].empty?
       person['driver_license_exp_date'].strftime("%d")
     when "DriverLicenseExpireMM"
-      return "" if person['driver_license_exp_date'].nil?
+      return "" if person['driver_license_exp_date'].empty?
       person['driver_license_exp_date'].strftime("%m")
     when "DriverLicenseExpireYYYY"
-      return "" if person['driver_license_exp_date'].nil?
+      return "" if person['driver_license_exp_date'].empty?
       person['driver_license_exp_date'].strftime("%Y")
     when "Relationship"
       "Self"
