@@ -17,13 +17,21 @@ exports.handler = function(event, context, callback) {
   pdfGen.on('close', function (code) {
     if(code===0) {
       var bytes = Buffer.byteLength(pdf, 'utf8');
+      var fileSize = Math.round(bytes/10000)/100 + 'mbs';
       if(bytes > 5999999){
-        callback(null, { status: 'FAILURE', pdf: '', code: code, errorMessage: "PDF must be smaller than 6mbs. Was " + Math.round(bytes/10000)/100 + 'mbs. Please upload a smaller PDF.', building: event.form.name });
+        callback(null, { status: 'FAILURE', building: event.form.name, fileSize: fileSize, code: code, errorMessage: "PDF must be smaller than 6mbs. Was " + fileSize + '. Please upload a smaller PDF.', pdf: ''});
       } else {
-        callback(null, { status: 'OK', pdf: pdf, code: code, errorMessage: "", building: event.form.name });
+        callback(null, { status: 'OK', building: event.form.name, fileSize: fileSize, code: code, errorMessage: "", pdf: pdf});
       }
     } else {
-      callback(null, { status: 'FAILURE', pdf: '', code: code, errorMessage: err, building: event.form.name });
+      callback(null, { status: 'FAILURE', building: event.form.name, fileSize: fileSize, code: code, errorMessage: getError(err), pdf: '' });
     }
   });
+}
+
+
+function getError(err){
+  let match = err.match(/<error>(.+)<\/error>/);
+  if(match.length > 0) return match[1];
+  return err;
 }
