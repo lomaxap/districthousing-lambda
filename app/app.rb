@@ -33,7 +33,7 @@ File.open(form['tmp_path'], "wb") do |file|
   begin
     file.write open(path).read
   rescue OpenURI::HTTPError
-    raise "<error>Cannot connect to googleapi endpoint #{path}. Make sure #{form['path']} is works and is owned by a Bread for the City account.</error>"
+    raise "<error>Cannot connect to googleapi endpoint #{path}. Make sure #{form['path']} exists and is owned by a Bread for the City account.</error>"
   end
 end
 
