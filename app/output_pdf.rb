@@ -20,13 +20,16 @@ class OutputPDF
 
   def form_fields
     vff = ValueForField.new
-    fields.map do |field_name|
-      [field_name, vff.value_of(@applicant, field_name)]
+    fields.map do |f|
+      name = f.name
+      val = vff.value_of(@applicant, name) || f.value
+      val = f.value if val == ""
+      [name, val]
     end
   end
 
   def fields
-    @pdftk.get_fields(@form['tmp_path']).map(&:name)
+    @pdftk.get_fields(@form['tmp_path'])
   end
 
   def filled_values

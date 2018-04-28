@@ -25,12 +25,16 @@ class ValueForField
       index = $1.to_i - 1
       address_val applicant['addresses'][index], $2, applicant['residences']
     when /^Residence(.*)$/
-      address_val applicant['addresses'][0], $1, applicant['residences']
+      current = applicant['residences'].detect { |r| r['current'] == true }
+      index = current.nil? ? 0 : current['address_id']
+      address_val applicant['addresses'][index], $1, applicant['residences']
     when /^Address(\d+)(.*)$/
       index = $1.to_i - 1
       address_val applicant['addresses'][index], $2, applicant['residences']
     when /^Address(.*)$/
-      address_val applicant['addresses'][0], $1, applicant['residences']
+      current = applicant['residences'].detect { |r| r['current'] == true }
+      index = current.nil? ? 0 : current['address_id']
+      address_val applicant['addresses'][index], $1, applicant['residences']
     when /^Job(\d+)(.+)$/
       index = $1.to_i - 1
       employment_val applicant['employments'][index], $2
@@ -48,11 +52,15 @@ class ValueForField
       income_val applicant['incomes'][index], $2
     when /^Income(.+)$/
       income_val applicant['incomes'][0], $1
+    when /^CriminalHistoryTickYes$/
+      return applicant['criminal_histories'].length > 0
+    when /^CriminalHistoryTickNo$/
+      return applicant['criminal_histories'].length == 0
     when /^Crime(\d+)(.+)$/
       index = $1.to_i - 1
-      criminal_history_val applicant['criminal_histories'][index], $2
+      criminal_history_val applicant['criminal_histories'][index], $2, applicant['criminal_histories']
     when /^Crime(.+)$/
-      criminal_history_val applicant['criminal_histories'][0], $1
+      criminal_history_val applicant['criminal_histories'][0], $1, applicant['criminal_histories']
     else
       person_val(applicant['person'], field_name, applicant['addresses']) || ""
     end
@@ -170,15 +178,21 @@ class ValueForField
     end
   end
 
-  def criminal_history_val history, field_name
+  def criminal_history_val history, field_name, histories
     return "" if history.nil?
     case field_name
     when "Date"
       history['year']
     when "Type"
       history['crime_type']
+    when "AllHistory"
+      types = ''
+      histories.each do |h|
+        types = "#{descriptions} #{h['type']}."
+      end
+      types.strip
     when "Description"
-      history['description']
+      history['crime_type']
     when "State"
       history['state']
     when /^(\D+)$/
@@ -195,11 +209,11 @@ class ValueForField
     when /^Mail(.*)/
       return "" if addresses.nil? || person['mailing_address_id'].nil?
       index = person['mailing_address_id'].to_i
-      address_val(addresses[index], $1, person['residences'])
+      return address_val(addresses[index], $1, person['residences'])
     when /^Address(.*)/
-      return "" if addresses.nil? || person['mailing_address_id'].nil?
-      index = person['mailing_address_id'].to_i
-      address_val(addresses[index], $1, person['residences'])
+      current = person['residences'].detect { |r| r['current'] == true }
+      index = current.nil? ? 0 : current['address_id']
+      return address_val(addresses[index], $1, person['residences'])
     when "FirstName"
       person['first_name']
     when "FirstInitial"
